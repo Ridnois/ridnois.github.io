@@ -11,6 +11,10 @@ const Experience = dynamic(() => import("@/components/scene/experience"), {
   ),
 });
 
-export function SceneCanvas() {
-  return <Experience />;
+interface SceneCanvasProps {
+  interactive?: boolean;
+}
+
+export function SceneCanvas({ interactive = true }: SceneCanvasProps) {
+  return <Experience interactive={interactive} />;
 }

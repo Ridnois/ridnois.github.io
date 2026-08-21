@@ -6,13 +6,18 @@ import { ContactShadows, Environment, Float, OrbitControls } from "@react-three/
 
 import { ShapeMesh } from "@/components/scene/shape-mesh";
 
-export default function Experience() {
+interface ExperienceProps {
+  interactive?: boolean;
+}
+
+export default function Experience({ interactive = true }: ExperienceProps) {
   return (
     <Canvas
       shadows
       dpr={[1, 2]}
       camera={{ position: [4, 2.2, 5], fov: 42 }}
       gl={{ antialias: true }}
+      style={{ pointerEvents: interactive ? "auto" : "none" }}
     >
       <ambientLight intensity={0.4} />
       <directionalLight
@@ -34,14 +39,16 @@ export default function Experience() {
           far={4}
         />
       </Suspense>
-      <OrbitControls
-        enablePan={false}
-        minDistance={3}
-        maxDistance={8}
-        minPolarAngle={Math.PI / 3}
-        maxPolarAngle={Math.PI / 1.8}
-        makeDefault
-      />
+      {interactive && (
+        <OrbitControls
+          enablePan={false}
+          minDistance={3}
+          maxDistance={8}
+          minPolarAngle={Math.PI / 3}
+          maxPolarAngle={Math.PI / 1.8}
+          makeDefault
+        />
+      )}
     </Canvas>
   );
 }
