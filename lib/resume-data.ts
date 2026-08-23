@@ -8,7 +8,7 @@ export const PROFILE = {
   linkedin: "https://www.linkedin.com/in/sebastian-altamirano-5aa45a132/",
   email: "s.altamiranorid@gmail.com",
   tagline:
-    "Endlessly curious — I love learning, building, and getting lost in digital art. When I'm not at the keyboard, I'm probably on inline skates.",
+    "I build polished frontend products and web3 systems end-to-end — from pixel-perfect UI to audited smart contracts. When I'm not at the keyboard, I'm probably on inline skates.",
   summary:
     "With over 8 years of experience, I started my career at Yapo.cl building components and flows for a ~1M daily-user marketplace, laying strong foundations in TypeScript, design systems, and testing. At Globant I became the go-to frontend technical reference across high-profile projects for Disney, UNICEF, LATAM Airlines and British Airways — shipping Next.js applications to production, unblocking critical pre-release issues under pressure, and serving as the architectural decision point within my team. Most recently, as founder of WEBAI3, I independently designed and deployed ERC-20 contracts, a multisig vault architecture using Gnosis Safe, and an AI inference layer on top of X402 and Ethereum — extending my expertise from frontend into full-stack decentralized development.",
 };
@@ -72,6 +72,11 @@ export const STATS = [
   { value: "~1M", label: "daily users at Yapo.cl" },
   { value: "4", label: "global brands shipped" },
 ];
+
+export const WHY_HIRE_ME = {
+  title: "Why hire me",
+  body: "I've been lucky enough to work alongside some genuinely great engineers on high-performing teams, and I try to carry what I learned from them into everything I build: stay pragmatic, favor what actually ships, and keep an eye out for the process improvement nobody's gotten to yet. I don't think I have all the answers — but I've been around long enough to help a team find them, and I'm just as glad doing the unglamorous work of making a system more solid as I am shipping the feature everyone notices.",
+};
 
 export const EDUCATION = {
   degree: "Programmer Analyst",

@@ -12,6 +12,7 @@ import { SceneCanvas } from "@/components/scene/scene-canvas";
 import { OpenToWorkBadge } from "@/components/status-badge";
 import { Eyebrow, ScrollCue } from "@/components/section-primitives";
 import { ScrollScrub } from "@/components/scroll-scrub";
+import { ToolsMarquee } from "@/components/badge-marquee";
 import { cn } from "@/lib/utils";
 import {
   EDUCATION,
@@ -21,8 +22,10 @@ import {
   PROFILE,
   SKILLS,
   STATS,
+  WHY_HIRE_ME,
 } from "@/lib/resume-data";
 import { ARTIST_CONTENT, DEV_CONTENT, HUMAN_CONTENT } from "@/lib/persona-data";
+import { TOOL_CATEGORIES } from "@/lib/tools-data";
 
 const PERSONAS = [
   { href: "/dev", ...DEV_CONTENT },
@@ -30,7 +33,7 @@ const PERSONAS = [
   { href: "/human", ...HUMAN_CONTENT },
 ];
 
-const SECTION_IDS = ["hero", "experience", "more", "contact"];
+const SECTION_IDS = ["hero", "experience", "tools", "why", "more", "contact"];
 
 const contactLinks = [
   { label: "GitHub", href: PROFILE.github, icon: GithubIcon },
@@ -93,8 +96,9 @@ export function Resume() {
             ))}
           </div>
           <p className="font-body max-w-md text-base font-semibold tracking-tight text-balance text-muted-foreground/80">
-            Shipped production work for Disney, UNICEF, LATAM Airlines &amp;
-            British Airways.
+            Shipped production Next.js apps for Disney, UNICEF, LATAM
+            Airlines &amp; British Airways as a frontend engineer at
+            Globant.
           </p>
           <div className="flex flex-wrap gap-2">
             {SKILLS.map((skill) => (
@@ -177,6 +181,39 @@ export function Resume() {
             </ScrollScrub>
           ))}
         </div>
+      </section>
+
+      <section
+        id="tools"
+        className="flex min-h-[45vh] w-full flex-col justify-center gap-8 px-6 py-16 lg:px-10"
+      >
+        <div className="mx-auto w-full max-w-2xl">
+          <ScrollScrub>
+            <Eyebrow>Toolset</Eyebrow>
+          </ScrollScrub>
+        </div>
+        <ScrollScrub className="w-full">
+          <ToolsMarquee categories={TOOL_CATEGORIES} />
+        </ScrollScrub>
+      </section>
+
+      <section
+        id="why"
+        className="flex min-h-screen w-full max-w-2xl flex-col justify-center gap-0 px-6 py-24 lg:px-10"
+      >
+        <ScrollScrub>
+          <Eyebrow>Why</Eyebrow>
+        </ScrollScrub>
+        <ScrollScrub>
+          <h2 className="font-heading mt-4 text-5xl font-semibold tracking-tight text-balance text-foreground sm:text-6xl">
+            {WHY_HIRE_ME.title}
+          </h2>
+        </ScrollScrub>
+        <ScrollScrub>
+          <p className="font-body mt-4 max-w-2xl text-xl font-semibold tracking-tight text-balance text-foreground/80 sm:text-2xl">
+            {WHY_HIRE_ME.body}
+          </p>
+        </ScrollScrub>
       </section>
 
       <section
