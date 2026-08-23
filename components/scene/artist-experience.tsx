@@ -11,6 +11,7 @@ import { ViewportGrid } from "@/components/scene/viewport-grid";
 import { StageGroup } from "@/components/scene/stage-group";
 import { PointerParallax } from "@/components/scene/pointer-parallax";
 import { AmbientField } from "@/components/scene/ambient-field";
+import { SweepLight } from "@/components/scene/sweep-light";
 
 function useDisplacedGeometry(radius: number, detail: number, amount: number, seed: number) {
   return useMemo(() => {
@@ -168,6 +169,7 @@ function ArtistScene({ scrollProgress }: { scrollProgress: MotionValue<number> }
     <PointerParallax>
       <ViewportGrid color="#3f3f46" position={[0, -1.1, 0]} />
       <AmbientField color="#71717a" />
+      <SweepLight radius={2.4} height={1} speed={0.22} />
       <StageGroup stageIndex={[0, 3]} floatIndex={floatIndex}>
         <SculptedGem />
         <ShardOrbit />

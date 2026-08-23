@@ -11,6 +11,7 @@ import { ViewportGrid } from "@/components/scene/viewport-grid";
 import { StageGroup } from "@/components/scene/stage-group";
 import { PointerParallax } from "@/components/scene/pointer-parallax";
 import { AmbientField } from "@/components/scene/ambient-field";
+import { SweepLight } from "@/components/scene/sweep-light";
 import { WireLattice } from "@/components/scene/wire-lattice";
 
 function ChainRing({ position }: { position: [number, number, number] }) {
@@ -151,6 +152,7 @@ function DevScene({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
     <PointerParallax>
       <ViewportGrid color="#3f3f46" />
       <AmbientField color="#52525b" />
+      <SweepLight radius={3} height={1.1} speed={0.2} />
       <StageGroup stageIndex={[0, 4]} floatIndex={floatIndex}>
         <group position={[0, 0.6, 0]}>
           <WireLattice radius={1.2} detail={1} color="#52525b" nodeColor="#a1a1aa" />

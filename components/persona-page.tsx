@@ -44,7 +44,7 @@ export function PersonaPage({ role, tagline, scene, color, sections, closing }: 
       <div className="fixed inset-0 -z-20">
         <PersonaSceneCanvas scene={scene} scrollProgress={scrollYProgress} />
       </div>
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b from-background/60 via-background/15 to-background/70" />
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b from-background/88 via-background/48 to-background/92 sm:from-background/60 sm:via-background/15 sm:to-background/70" />
       <div
         className="pointer-events-none fixed inset-0 -z-10"
         style={{

@@ -1,7 +1,7 @@
 export const PROFILE = {
   brand: "Ridnois",
   name: "Sebastian Altamirano",
-  role: "Software Engineer",
+  role: "Software Developer",
   location: "Santiago, Chile",
   siteUrl: "https://ridnois.github.io",
   github: "https://github.com/Ridnois",

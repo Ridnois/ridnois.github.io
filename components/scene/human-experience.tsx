@@ -11,6 +11,7 @@ import { ViewportGrid } from "@/components/scene/viewport-grid";
 import { StageGroup } from "@/components/scene/stage-group";
 import { PointerParallax } from "@/components/scene/pointer-parallax";
 import { AmbientField } from "@/components/scene/ambient-field";
+import { SweepLight } from "@/components/scene/sweep-light";
 
 function SkateVignette({ position }: { position: [number, number, number] }) {
   const groupRef = useRef<THREE.Group>(null);
@@ -155,6 +156,7 @@ function HumanScene({ scrollProgress }: { scrollProgress: MotionValue<number> })
     <PointerParallax>
       <ViewportGrid color="#3f3f46" position={[0, -1, 0]} />
       <AmbientField color="#71717a" />
+      <SweepLight radius={3.2} height={1} speed={0.17} />
       <StageGroup stageIndex={1} floatIndex={floatIndex}>
         <SkateVignette position={[2.4, -1, -0.6]} />
       </StageGroup>

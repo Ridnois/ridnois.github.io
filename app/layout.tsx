@@ -28,9 +28,8 @@ const poppins = Poppins({
   weight: ["600"],
 });
 
-const title = "Sebastian Altamirano — Software Engineer";
-const description =
-  "Software engineer specializing in TypeScript, React/Next.js, and Web3 — resume and portfolio. Open to work.";
+const title = `${PROFILE.name} — ${PROFILE.role}`;
+const description = `${PROFILE.role} specializing in TypeScript, React/Next.js, and Web3 — resume and portfolio. Open to work.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(PROFILE.siteUrl),

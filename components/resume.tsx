@@ -58,7 +58,7 @@ export function Resume() {
       <div className="fixed inset-0 -z-20">
         <SceneCanvas scrollProgress={scrollYProgress} />
       </div>
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b from-background/55 via-background/10 to-background/65" />
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b from-background/85 via-background/45 to-background/90 sm:from-background/55 sm:via-background/10 sm:to-background/65" />
 
       <section
         id="hero"
@@ -242,6 +242,9 @@ export function Resume() {
                 </div>
                 <p className="font-body line-clamp-2 max-w-xl text-lg font-semibold tracking-tight text-balance text-muted-foreground">
                   {persona.tagline}
+                </p>
+                <p className="font-body mt-1 text-sm font-semibold tracking-tight text-muted-foreground/70">
+                  {persona.sections.map((section) => section.title).join(" · ")}
                 </p>
               </Link>
             </ScrollScrub>

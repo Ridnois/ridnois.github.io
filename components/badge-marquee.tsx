@@ -1,6 +1,11 @@
 "use client";
 
+import { Boxes, Braces, Code2 } from "lucide-react";
 import { motion } from "motion/react";
+
+import { cn } from "@/lib/utils";
+
+const CATEGORY_ICONS = [Code2, Braces, Boxes];
 
 function tiltFor(i: number) {
   const rotateX = 8 - (i % 3) * 4;
@@ -47,18 +52,28 @@ export function ToolsMarquee({
 }) {
   return (
     <div className="flex flex-col gap-4">
-      {categories.map((category, i) => (
-        <div key={category.label} className="flex flex-col gap-2">
-          <span className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-            {category.label}
-          </span>
-          <BadgeMarqueeRow
-            items={category.items}
-            direction={i % 2 === 0 ? "left" : "right"}
-            speed={22 + i * 4}
-          />
-        </div>
-      ))}
+      {categories.map((category, i) => {
+        const Icon = CATEGORY_ICONS[i % CATEGORY_ICONS.length];
+        return (
+          <div
+            key={category.label}
+            className={cn(
+              "flex flex-col gap-2 pt-4",
+              i > 0 && "border-t border-border/60"
+            )}
+          >
+            <span className="flex items-center gap-1.5 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+              <Icon className="size-3.5" />
+              {category.label}
+            </span>
+            <BadgeMarqueeRow
+              items={category.items}
+              direction={i % 2 === 0 ? "left" : "right"}
+              speed={22 + i * 4}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }

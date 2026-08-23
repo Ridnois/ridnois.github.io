@@ -13,6 +13,7 @@ import { BuildGroup } from "@/components/scene/build-group";
 import { PointerParallax } from "@/components/scene/pointer-parallax";
 import { AmbientField } from "@/components/scene/ambient-field";
 import { WireLattice } from "@/components/scene/wire-lattice";
+import { SweepLight } from "@/components/scene/sweep-light";
 import { ARTIST_CONTENT, DEV_CONTENT, HUMAN_CONTENT } from "@/lib/persona-data";
 
 const PLANETS = [
@@ -246,6 +247,7 @@ function HomeScene({ scrollProgress }: { scrollProgress: MotionValue<number> }) 
     <PointerParallax>
       <ViewportGrid color="#52525b" position={[ROOM_OFFSET[0], -1.4, ROOM_OFFSET[2] / 2]} />
       <AmbientField color="#52525b" />
+      <SweepLight radius={3.2} height={1.2} speed={0.18} />
       <StageGroup stageIndex={[0, 1]} floatIndex={floatIndex}>
         <group position={[0, 0.3, 0]}>
           <SolarSystem />
