@@ -1,12 +1,14 @@
+import type { Metadata } from "next";
+
 import { PersonaPage } from "@/components/persona-page";
+import { HUMAN_CONTENT } from "@/lib/persona-data";
+
+export const metadata: Metadata = {
+  title: `${HUMAN_CONTENT.role} — Ridnois`,
+  description: HUMAN_CONTENT.tagline,
+  alternates: { canonical: "/human" },
+};
 
 export default function HumanPage() {
-  return (
-    <PersonaPage
-      role="Human"
-      bio="Outside the editor: reading, coffee, and long walks. Same curiosity, fewer semicolons."
-      shape="torus"
-      color="#22c55e"
-    />
-  );
+  return <PersonaPage {...HUMAN_CONTENT} />;
 }

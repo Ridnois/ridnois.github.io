@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 
 import { Header } from "@/components/header";
+import { PersonJsonLd } from "@/components/person-jsonld";
+import { PROFILE } from "@/lib/resume-data";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,19 +16,49 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const fraunces = Fraunces({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: ["500", "600"],
+});
+
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["600"],
+});
+
+const title = "Sebastian Altamirano — Software Engineer";
+const description =
+  "Software engineer specializing in TypeScript, React/Next.js, and Web3 — resume and portfolio. Open to work.";
+
 export const metadata: Metadata = {
-  title: "Sebastian Altamirano — Software Engineer",
-  description:
-    "Software engineer specializing in TypeScript, React/Next.js, and Web3 — resume and portfolio.",
+  metadataBase: new URL(PROFILE.siteUrl),
+  title,
+  description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title,
+    description,
+    url: PROFILE.siteUrl,
+    siteName: PROFILE.brand,
+    type: "profile",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${poppins.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <PersonJsonLd />
         <Header />
         {children}
       </body>

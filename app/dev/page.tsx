@@ -1,12 +1,14 @@
+import type { Metadata } from "next";
+
 import { PersonaPage } from "@/components/persona-page";
+import { DEV_CONTENT } from "@/lib/persona-data";
+
+export const metadata: Metadata = {
+  title: `${DEV_CONTENT.role} — Ridnois`,
+  description: DEV_CONTENT.tagline,
+  alternates: { canonical: "/dev" },
+};
 
 export default function DevPage() {
-  return (
-    <PersonaPage
-      role="Developer"
-      bio="Software engineer who ships full-stack products end to end — from infra to pixel-perfect UI. Currently deep in real-time web graphics."
-      shape="box"
-      color="#06b6d4"
-    />
-  );
+  return <PersonaPage {...DEV_CONTENT} />;
 }

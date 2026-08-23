@@ -1,14 +1,17 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
-import { motion } from "motion/react";
+import { useRef, type CSSProperties } from "react";
+import Link from "next/link";
 import { Download, Mail } from "lucide-react";
+import { motion, useScroll, useTransform } from "motion/react";
 
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { GithubIcon } from "@/components/icons/social";
+import { GithubIcon, LinkedinIcon } from "@/components/icons/social";
 import { SceneCanvas } from "@/components/scene/scene-canvas";
-import { useSceneStore, type ShapeKind } from "@/lib/scene-store";
+import { OpenToWorkBadge } from "@/components/status-badge";
+import { Eyebrow, ScrollCue } from "@/components/section-primitives";
+import { ScrollScrub } from "@/components/scroll-scrub";
 import { cn } from "@/lib/utils";
 import {
   EDUCATION,
@@ -16,108 +19,41 @@ import {
   INTERESTS,
   LANGUAGES,
   PROFILE,
+  SKILLS,
+  STATS,
 } from "@/lib/resume-data";
+import { ARTIST_CONTENT, DEV_CONTENT, HUMAN_CONTENT } from "@/lib/persona-data";
 
-const SECTION_THEME: Record<string, { shape: ShapeKind; color: string }> = {
-  hero: { shape: "knot", color: "#f97316" },
-  experience: { shape: "icosahedron", color: "#8b5cf6" },
-  contact: { shape: "box", color: "#22c55e" },
-};
+const PERSONAS = [
+  { href: "/dev", ...DEV_CONTENT },
+  { href: "/3d-artist", ...ARTIST_CONTENT },
+  { href: "/human", ...HUMAN_CONTENT },
+];
 
-function useScrollTheme() {
-  const setShape = useSceneStore((s) => s.setShape);
-  const setColor = useSceneStore((s) => s.setColor);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const theme = SECTION_THEME[entry.target.id];
-          if (theme) {
-            setShape(theme.shape);
-            setColor(theme.color);
-          }
-        }
-      },
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
-    );
-
-    for (const id of Object.keys(SECTION_THEME)) {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    }
-
-    return () => observer.disconnect();
-  }, [setShape, setColor]);
-}
-
-function Reveal({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function Eyebrow({ children }: { children: ReactNode }) {
-  return (
-    <span className="text-sm font-semibold tracking-widest text-muted-foreground uppercase">
-      {children}
-    </span>
-  );
-}
-
-function ScrollCue({ targetId }: { targetId: string }) {
-  return (
-    <button
-      type="button"
-      onClick={() =>
-        document
-          .getElementById(targetId)
-          ?.scrollIntoView({ behavior: "smooth" })
-      }
-      aria-label="Scroll to next section"
-      className="mx-auto mt-16 flex flex-col items-center gap-3 text-muted-foreground transition-colors hover:text-foreground"
-    >
-      <span className="text-xs font-semibold tracking-[0.3em] uppercase">
-        Scroll
-      </span>
-      <span className="flex h-10 w-6 items-start justify-center rounded-full border-2 border-current p-1.5">
-        <motion.span
-          className="size-1.5 rounded-full bg-current"
-          animate={{ y: [0, 14, 0], opacity: [1, 0.3, 1] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </span>
-    </button>
-  );
-}
+const SECTION_IDS = ["hero", "experience", "more", "contact"];
 
 const contactLinks = [
   { label: "GitHub", href: PROFILE.github, icon: GithubIcon },
+  { label: "LinkedIn", href: PROFILE.linkedin, icon: LinkedinIcon },
   { label: "Email", href: `mailto:${PROFILE.email}`, icon: Mail },
 ];
 
 export function Resume() {
-  useScrollTheme();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  const heroExitRange = 1 / SECTION_IDS.length;
+  const heroOpacity = useTransform(scrollYProgress, [0, heroExitRange], [1, 0]);
+  const heroY = useTransform(scrollYProgress, [0, heroExitRange], [0, -60]);
+  const heroScale = useTransform(scrollYProgress, [0, heroExitRange], [1, 0.94]);
 
   return (
-    <div className="relative">
-      <div className="fixed inset-y-0 right-0 left-0 -z-20 lg:left-[55%]">
-        <SceneCanvas interactive={false} />
+    <div ref={containerRef} className="relative">
+      <div className="fixed inset-0 -z-20">
+        <SceneCanvas scrollProgress={scrollYProgress} />
       </div>
       <div className="pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b from-background/55 via-background/10 to-background/65" />
 
@@ -125,21 +61,48 @@ export function Resume() {
         id="hero"
         className="flex min-h-screen flex-col justify-center px-6 lg:px-10"
       >
-        <div className="flex w-full max-w-2xl flex-col gap-6">
-          <Badge variant="outline" className="h-6 w-fit px-3 text-sm">
-            {PROFILE.role}
-          </Badge>
+        <motion.div
+          style={{ opacity: heroOpacity, y: heroY, scale: heroScale }}
+          className="flex w-full max-w-2xl flex-col gap-6"
+        >
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="outline" className="h-6 w-fit px-3 text-sm">
+              {PROFILE.role}
+            </Badge>
+            <OpenToWorkBadge />
+          </div>
           <div className="flex flex-col gap-2">
-            <h1 className="text-7xl leading-[0.9] font-bold tracking-tight text-foreground sm:text-9xl">
+            <h1 className="font-heading text-7xl leading-[0.9] font-semibold tracking-tight text-foreground sm:text-9xl">
               {PROFILE.brand}
             </h1>
-            <p className="text-xl font-medium text-foreground/70 sm:text-2xl">
-              {PROFILE.name} — Software Developer
+            <p className="font-body text-xl font-semibold tracking-tight text-foreground/70 sm:text-2xl">
+              {PROFILE.name} — {PROFILE.role}
             </p>
           </div>
-          <p className="max-w-md text-lg text-balance text-muted-foreground sm:text-xl">
+          <p className="font-body max-w-md text-xl font-semibold tracking-tight text-balance text-muted-foreground sm:text-2xl">
             {PROFILE.tagline}
           </p>
+          <div className="flex flex-wrap gap-x-8 gap-y-3">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="flex flex-col">
+                <span className="text-2xl font-bold tracking-tight text-foreground">
+                  {stat.value}
+                </span>
+                <span className="text-sm text-muted-foreground">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+          <p className="font-body max-w-md text-base font-semibold tracking-tight text-balance text-muted-foreground/80">
+            Shipped production work for Disney, UNICEF, LATAM Airlines &amp;
+            British Airways.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {SKILLS.map((skill) => (
+              <Badge key={skill} variant="secondary" className="h-6 px-3 text-sm">
+                {skill}
+              </Badge>
+            ))}
+          </div>
           <div className="mt-2 flex items-center gap-3">
             {contactLinks.map(({ label, href, icon: Icon }) => (
               <a
@@ -168,7 +131,7 @@ export function Resume() {
               Resume
             </a>
           </div>
-        </div>
+        </motion.div>
 
         <ScrollCue targetId="experience" />
       </section>
@@ -177,18 +140,18 @@ export function Resume() {
         id="experience"
         className="flex min-h-screen w-full max-w-2xl flex-col justify-center gap-16 px-6 py-24 lg:px-10"
       >
-        <Reveal>
+        <ScrollScrub>
           <Eyebrow>Experience</Eyebrow>
-        </Reveal>
+        </ScrollScrub>
 
         <div className="flex flex-col gap-20">
           {EXPERIENCE.map((job) => (
-            <Reveal key={job.company}>
+            <ScrollScrub key={job.company}>
               <div className="flex flex-col gap-3">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <h3 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                  <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
                     {job.company}
-                  </h3>
+                  </h2>
                   <span className="text-base text-muted-foreground">
                     {job.period}
                   </span>
@@ -196,7 +159,7 @@ export function Resume() {
                 <Badge variant="outline" className="h-6 w-fit px-3 text-sm">
                   {job.role}
                 </Badge>
-                <p className="max-w-2xl text-lg text-balance text-foreground/80 sm:text-xl">
+                <p className="font-body max-w-2xl text-xl font-semibold tracking-tight text-balance text-foreground/80 sm:text-2xl">
                   {job.highlight}
                 </p>
                 <div className="mt-1 flex flex-wrap gap-2">
@@ -211,7 +174,40 @@ export function Resume() {
                   ))}
                 </div>
               </div>
-            </Reveal>
+            </ScrollScrub>
+          ))}
+        </div>
+      </section>
+
+      <section
+        id="more"
+        className="flex min-h-screen w-full max-w-2xl flex-col justify-center gap-10 px-6 py-24 lg:px-10"
+      >
+        <ScrollScrub>
+          <Eyebrow>More</Eyebrow>
+        </ScrollScrub>
+
+        <div className="flex flex-col gap-4">
+          {PERSONAS.map((persona) => (
+            <ScrollScrub key={persona.href}>
+              <Link
+                href={persona.href}
+                style={{ "--persona-color": persona.color } as CSSProperties}
+                className="group/persona flex flex-col gap-2 rounded-2xl border-2 border-foreground/80 bg-background/50 p-6 shadow-[4px_4px_0_0_var(--persona-color)] backdrop-blur-md transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:bg-muted/40 hover:shadow-[2px_2px_0_0_var(--persona-color)]"
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <h2 className="font-heading text-2xl font-semibold tracking-tight text-foreground">
+                    {persona.role}
+                  </h2>
+                  <span className="text-muted-foreground transition-transform group-hover/persona:translate-x-1">
+                    →
+                  </span>
+                </div>
+                <p className="font-body line-clamp-2 max-w-xl text-lg font-semibold tracking-tight text-balance text-muted-foreground">
+                  {persona.tagline}
+                </p>
+              </Link>
+            </ScrollScrub>
           ))}
         </div>
       </section>
@@ -220,21 +216,21 @@ export function Resume() {
         id="contact"
         className="flex min-h-screen w-full max-w-2xl flex-col justify-center gap-0 px-6 lg:px-10"
       >
-        <Reveal>
+        <ScrollScrub>
           <Eyebrow>Contact</Eyebrow>
-        </Reveal>
-        <Reveal>
-          <h2 className="mt-4 text-5xl font-bold tracking-tight text-balance text-foreground sm:text-6xl">
-            Let&apos;s build something.
+        </ScrollScrub>
+        <ScrollScrub>
+          <h2 className="font-heading mt-4 text-5xl font-semibold tracking-tight text-balance text-foreground sm:text-6xl">
+            Contact me.
           </h2>
-        </Reveal>
-        <Reveal>
-          <p className="mt-4 max-w-md text-lg text-balance text-muted-foreground sm:text-xl">
-            Open to new roles, collaborations, and ambitious ideas — reach
-            out.
+        </ScrollScrub>
+        <ScrollScrub>
+          <p className="font-body mt-4 max-w-md text-xl font-semibold tracking-tight text-balance text-muted-foreground sm:text-2xl">
+            I&apos;m currently open to work — new roles, collaborations, and
+            ambitious ideas. Reach out.
           </p>
-        </Reveal>
-        <Reveal>
+        </ScrollScrub>
+        <ScrollScrub>
           <div className="mt-10 flex items-center gap-4">
             {contactLinks.map(({ label, href, icon: Icon }) => (
               <a
@@ -263,9 +259,9 @@ export function Resume() {
               Download Resume
             </a>
           </div>
-        </Reveal>
-        <Reveal>
-          <div className="mt-14 flex flex-col gap-2 text-base text-muted-foreground">
+        </ScrollScrub>
+        <ScrollScrub>
+          <div className="font-body mt-14 flex flex-col gap-2 text-lg font-semibold tracking-tight text-muted-foreground">
             <span>
               {EDUCATION.degree} · {EDUCATION.school} ({EDUCATION.period})
             </span>
@@ -273,8 +269,11 @@ export function Resume() {
               {LANGUAGES.map((l) => `${l.name} (${l.level})`).join(" · ")}
             </span>
             <span>{INTERESTS.join(" · ")}</span>
+            <Link href="/resume" className="underline underline-offset-4 hover:text-foreground">
+              Plain-text resume
+            </Link>
           </div>
-        </Reveal>
+        </ScrollScrub>
       </section>
     </div>
   );

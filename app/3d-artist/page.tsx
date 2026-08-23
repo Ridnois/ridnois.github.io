@@ -1,12 +1,14 @@
+import type { Metadata } from "next";
+
 import { PersonaPage } from "@/components/persona-page";
+import { ARTIST_CONTENT } from "@/lib/persona-data";
+
+export const metadata: Metadata = {
+  title: `${ARTIST_CONTENT.role} — Ridnois`,
+  description: ARTIST_CONTENT.tagline,
+  alternates: { canonical: "/3d-artist" },
+};
 
 export default function ThreeDArtistPage() {
-  return (
-    <PersonaPage
-      role="3D Artist"
-      bio="Building small worlds in WebGL and Blender — drawn to procedural shapes, materials, and light."
-      shape="knot"
-      color="#8b5cf6"
-    />
-  );
+  return <PersonaPage {...ARTIST_CONTENT} />;
 }

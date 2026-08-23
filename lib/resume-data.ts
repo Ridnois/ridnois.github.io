@@ -3,7 +3,9 @@ export const PROFILE = {
   name: "Sebastian Altamirano",
   role: "Software Engineer",
   location: "Santiago, Chile",
+  siteUrl: "https://ridnois.github.io",
   github: "https://github.com/Ridnois",
+  linkedin: "https://www.linkedin.com/in/sebastian-altamirano-5aa45a132/",
   email: "s.altamiranorid@gmail.com",
   tagline:
     "Endlessly curious — I love learning, building, and getting lost in digital art. When I'm not at the keyboard, I'm probably on inline skates.",
@@ -60,6 +62,15 @@ export const EXPERIENCE = [
       "Implemented design systems and analytics integrations using TypeScript, Custom Elements and SCSS.",
     ],
   },
+];
+
+export const SKILLS = Array.from(new Set(EXPERIENCE.flatMap((job) => job.tech)));
+
+export const STATS = [
+  { value: "8+", label: "years experience" },
+  { value: `${EXPERIENCE.length}`, label: "companies" },
+  { value: "~1M", label: "daily users at Yapo.cl" },
+  { value: "4", label: "global brands shipped" },
 ];
 
 export const EDUCATION = {

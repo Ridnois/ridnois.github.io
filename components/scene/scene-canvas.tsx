@@ -1,8 +1,9 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import type { MotionValue } from "motion/react";
 
-const Experience = dynamic(() => import("@/components/scene/experience"), {
+const HomeExperience = dynamic(() => import("@/components/scene/home-experience"), {
   ssr: false,
   loading: () => (
     <div className="flex size-full items-center justify-center">
@@ -11,10 +12,6 @@ const Experience = dynamic(() => import("@/components/scene/experience"), {
   ),
 });
 
-interface SceneCanvasProps {
-  interactive?: boolean;
-}
-
-export function SceneCanvas({ interactive = true }: SceneCanvasProps) {
-  return <Experience interactive={interactive} />;
+export function SceneCanvas({ scrollProgress }: { scrollProgress: MotionValue<number> }) {
+  return <HomeExperience scrollProgress={scrollProgress} />;
 }
