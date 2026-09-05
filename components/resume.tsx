@@ -13,6 +13,7 @@ import { OpenToWorkBadge } from "@/components/status-badge";
 import { Eyebrow, ScrollCue } from "@/components/section-primitives";
 import { ScrollScrub } from "@/components/scroll-scrub";
 import { ToolsMarquee } from "@/components/badge-marquee";
+import { HireLoop } from "@/components/hire-loop";
 import { cn } from "@/lib/utils";
 import {
   EDUCATION,
@@ -218,7 +219,7 @@ export function Resume() {
 
       <section
         id="more"
-        className="flex min-h-screen w-full max-w-2xl flex-col justify-center gap-10 px-6 py-24 lg:px-10"
+        className="flex min-h-screen w-full max-w-2xl flex-col justify-center gap-10 px-6 py-12 lg:px-10"
       >
         <ScrollScrub>
           <Eyebrow>More</Eyebrow>
@@ -251,6 +252,8 @@ export function Resume() {
           ))}
         </div>
       </section>
+
+      <HireLoop />
 
       <section
         id="contact"
