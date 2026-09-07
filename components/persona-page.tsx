@@ -54,7 +54,7 @@ export function PersonaPage({ role, tagline, scene, color, sections, closing }: 
 
       <section
         id="hero"
-        className="flex min-h-screen flex-col justify-center px-6 lg:px-10"
+        className="flex min-h-screen flex-col justify-center px-6 pt-20 lg:px-10 lg:pt-24"
       >
         <motion.div
           style={{ opacity: heroOpacity, y: heroY, scale: heroScale }}
@@ -68,10 +68,10 @@ export function PersonaPage({ role, tagline, scene, color, sections, closing }: 
           </div>
 
           <div className="flex flex-col gap-3">
-            <h1 className="font-heading text-6xl font-semibold tracking-tight text-foreground sm:text-7xl">
+            <h1 className="font-heading text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               Ridnois
             </h1>
-            <p className="font-body max-w-md text-xl font-semibold tracking-tight text-balance text-muted-foreground sm:text-2xl">
+            <p className="font-body max-w-md text-lg font-semibold tracking-tight text-balance text-muted-foreground sm:text-xl lg:text-2xl">
               {tagline}
             </p>
           </div>
@@ -113,12 +113,12 @@ export function PersonaPage({ role, tagline, scene, color, sections, closing }: 
           <Eyebrow>Contact</Eyebrow>
         </Reveal>
         <Reveal>
-          <h2 className="font-heading mt-4 text-5xl font-semibold tracking-tight text-balance text-foreground sm:text-6xl">
+          <h2 className="font-heading mt-4 text-4xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl lg:text-6xl">
             {closing.title}
           </h2>
         </Reveal>
         <Reveal>
-          <p className="font-body mt-4 max-w-md text-xl font-semibold tracking-tight text-balance text-muted-foreground sm:text-2xl">
+          <p className="font-body mt-4 max-w-md text-lg font-semibold tracking-tight text-balance text-muted-foreground sm:text-xl lg:text-2xl">
             {closing.body}
           </p>
         </Reveal>

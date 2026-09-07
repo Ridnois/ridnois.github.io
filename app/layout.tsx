@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { Header } from "@/components/header";
 import { PersonJsonLd } from "@/components/person-jsonld";
+import { ThemeProvider } from "@/components/theme-provider";
 import { PROFILE } from "@/lib/resume-data";
 
 const geistSans = Geist({
@@ -54,12 +55,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${poppins.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <PersonJsonLd />
-        <Header />
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <PersonJsonLd />
+          <Header />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

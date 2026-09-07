@@ -63,7 +63,7 @@ export function Resume() {
 
       <section
         id="hero"
-        className="flex min-h-screen flex-col justify-center px-6 lg:px-10"
+        className="flex min-h-screen flex-col justify-center px-6 pt-20 lg:px-10 lg:pt-24"
       >
         <motion.div
           style={{ opacity: heroOpacity, y: heroY, scale: heroScale }}
@@ -76,14 +76,14 @@ export function Resume() {
             <OpenToWorkBadge />
           </div>
           <div className="flex flex-col gap-2">
-            <h1 className="font-heading text-7xl leading-[0.9] font-semibold tracking-tight text-foreground sm:text-9xl">
+            <h1 className="font-heading text-4xl leading-[0.9] font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl 2xl:text-8xl">
               {PROFILE.brand}
             </h1>
-            <p className="font-body text-xl font-semibold tracking-tight text-foreground/70 sm:text-2xl">
+            <p className="font-body text-lg font-semibold tracking-tight text-foreground/70 sm:text-xl lg:text-2xl">
               {PROFILE.name} — {PROFILE.role}
             </p>
           </div>
-          <p className="font-body max-w-md text-xl font-semibold tracking-tight text-balance text-muted-foreground sm:text-2xl">
+          <p className="font-body max-w-md text-lg font-semibold tracking-tight text-balance text-muted-foreground sm:text-xl lg:text-2xl">
             {PROFILE.tagline}
           </p>
           <div className="flex flex-wrap gap-x-8 gap-y-3">
@@ -154,17 +154,17 @@ export function Resume() {
             <ScrollScrub key={job.company}>
               <div className="flex flex-col gap-3">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <h2 className="font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+                  <h2 className="font-heading text-2xl font-semibold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
                     {job.company}
                   </h2>
-                  <span className="text-base text-muted-foreground">
+                  <span className="text-sm text-muted-foreground sm:text-base">
                     {job.period}
                   </span>
                 </div>
                 <Badge variant="outline" className="h-6 w-fit px-3 text-sm">
                   {job.role}
                 </Badge>
-                <p className="font-body max-w-2xl text-xl font-semibold tracking-tight text-balance text-foreground/80 sm:text-2xl">
+                <p className="font-body max-w-2xl text-lg font-semibold tracking-tight text-balance text-foreground/80 sm:text-xl lg:text-2xl">
                   {job.highlight}
                 </p>
                 <div className="mt-1 flex flex-wrap gap-2">
@@ -206,12 +206,12 @@ export function Resume() {
           <Eyebrow>Why</Eyebrow>
         </ScrollScrub>
         <ScrollScrub>
-          <h2 className="font-heading mt-4 text-5xl font-semibold tracking-tight text-balance text-foreground sm:text-6xl">
+          <h2 className="font-heading mt-4 text-4xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl lg:text-6xl">
             {WHY_HIRE_ME.title}
           </h2>
         </ScrollScrub>
         <ScrollScrub>
-          <p className="font-body mt-4 max-w-2xl text-xl font-semibold tracking-tight text-balance text-foreground/80 sm:text-2xl">
+          <p className="font-body mt-4 max-w-2xl text-lg font-semibold tracking-tight text-balance text-foreground/80 sm:text-xl lg:text-2xl">
             {WHY_HIRE_ME.body}
           </p>
         </ScrollScrub>
@@ -263,12 +263,12 @@ export function Resume() {
           <Eyebrow>Contact</Eyebrow>
         </ScrollScrub>
         <ScrollScrub>
-          <h2 className="font-heading mt-4 text-5xl font-semibold tracking-tight text-balance text-foreground sm:text-6xl">
+          <h2 className="font-heading mt-4 text-4xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl lg:text-6xl">
             Contact me.
           </h2>
         </ScrollScrub>
         <ScrollScrub>
-          <p className="font-body mt-4 max-w-md text-xl font-semibold tracking-tight text-balance text-muted-foreground sm:text-2xl">
+          <p className="font-body mt-4 max-w-md text-lg font-semibold tracking-tight text-balance text-muted-foreground sm:text-xl lg:text-2xl">
             I&apos;m currently open to work — new roles, collaborations, and
             ambitious ideas. Reach out.
           </p>

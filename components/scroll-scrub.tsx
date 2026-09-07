@@ -67,13 +67,13 @@ export function ScrollScrubSection({
       </motion.div>
       <motion.h2
         style={{ y: titleY, opacity: titleOpacity, scale: titleScale }}
-        className="font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
+        className="font-heading text-2xl font-semibold tracking-tight text-foreground sm:text-3xl lg:text-4xl"
       >
         {title}
       </motion.h2>
       <motion.p
         style={{ y: bodyY, opacity: bodyOpacity }}
-        className="font-body max-w-2xl text-xl font-semibold tracking-tight text-balance text-foreground/80 sm:text-2xl"
+        className="font-body max-w-2xl text-lg font-semibold tracking-tight text-balance text-foreground/80 sm:text-xl lg:text-2xl"
       >
         {body}
       </motion.p>

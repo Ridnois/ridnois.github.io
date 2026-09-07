@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Download } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -44,17 +45,20 @@ export function Header() {
             );
           })}
         </nav>
-        <a
-          href="/resume.pdf"
-          download
-          className={cn(
-            buttonVariants({ variant: "outline", size: "sm" }),
-            "font-body ml-auto gap-1.5 font-semibold tracking-tight"
-          )}
-        >
-          <Download />
-          Resume
-        </a>
+        <div className="ml-auto flex items-center gap-2">
+          <ThemeToggle />
+          <a
+            href="/resume.pdf"
+            download
+            className={cn(
+              buttonVariants({ variant: "outline", size: "sm" }),
+              "font-body gap-1.5 font-semibold tracking-tight"
+            )}
+          >
+            <Download />
+            Resume
+          </a>
+        </div>
       </div>
     </header>
   );
