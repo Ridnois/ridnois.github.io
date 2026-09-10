@@ -4,6 +4,8 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
+
 export function SweepLight({
   radius = 3,
   height = 1.5,
@@ -16,11 +18,12 @@ export function SweepLight({
   color?: string;
 }) {
   const groupRef = useRef<THREE.Group>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useFrame((state) => {
     const group = groupRef.current;
     if (!group) return;
-    const t = state.clock.elapsedTime * speed;
+    const t = prefersReducedMotion ? 0 : state.clock.elapsedTime * speed;
     group.position.set(
       Math.cos(t) * radius,
       height + Math.sin(t * 0.6) * height * 0.3,

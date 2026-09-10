@@ -4,6 +4,8 @@ import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
+
 function seededRandom(seed: number) {
   const x = Math.sin(seed) * 43758.5453;
   return x - Math.floor(x);
@@ -19,6 +21,7 @@ export function AmbientField({
   radius?: number;
 }) {
   const groupRef = useRef<THREE.Group>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const nodes = useMemo(
     () =>
@@ -37,6 +40,7 @@ export function AmbientField({
   );
 
   useFrame((_, delta) => {
+    if (prefersReducedMotion) return;
     if (groupRef.current) groupRef.current.rotation.y += delta * 0.015;
   });
 

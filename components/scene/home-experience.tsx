@@ -15,6 +15,7 @@ import { AmbientField } from "@/components/scene/ambient-field";
 import { WireLattice } from "@/components/scene/wire-lattice";
 import { SweepLight } from "@/components/scene/sweep-light";
 import { ARTIST_CONTENT, DEV_CONTENT, HUMAN_CONTENT } from "@/lib/persona-data";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 
 const PLANETS = [
   { orbitRadius: 1.5, speed: 0.32, size: 0.14, tilt: -0.18, color: DEV_CONTENT.color },
@@ -37,8 +38,10 @@ function Planet({
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const angleRef = useRef(phase);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useFrame((_, delta) => {
+    if (prefersReducedMotion) return;
     angleRef.current += delta * speed;
     const mesh = meshRef.current;
     if (!mesh) return;
@@ -60,9 +63,11 @@ function Planet({
 
 function SolarSystem() {
   const groupRef = useRef<THREE.Group>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y += delta * 0.03;
+    if (prefersReducedMotion || !groupRef.current) return;
+    groupRef.current.rotation.y += delta * 0.03;
   });
 
   return (
@@ -107,10 +112,11 @@ function Desk() {
 
 function Monitor() {
   const glowRef = useRef<THREE.Group>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useFrame((state) => {
     if (!glowRef.current) return;
-    const pulse = 1 + Math.sin(state.clock.elapsedTime * 1.6) * 0.08;
+    const pulse = prefersReducedMotion ? 1 : 1 + Math.sin(state.clock.elapsedTime * 1.6) * 0.08;
     glowRef.current.scale.setScalar(pulse);
   });
 
@@ -194,9 +200,11 @@ function Skateboard({
 
 function Room() {
   const groupRef = useRef<THREE.Group>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y += delta * 0.02;
+    if (prefersReducedMotion || !groupRef.current) return;
+    groupRef.current.rotation.y += delta * 0.02;
   });
 
   return (

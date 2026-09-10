@@ -3,6 +3,8 @@
 import type { ReactNode } from "react";
 import { motion } from "motion/react";
 
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
+
 export function Reveal({
   children,
   className,
@@ -10,6 +12,12 @@ export function Reveal({
   children: ReactNode;
   className?: string;
 }) {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       className={className}
@@ -25,13 +33,16 @@ export function Reveal({
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <span className="text-sm font-semibold tracking-widest text-muted-foreground uppercase">
+    <span className="flex items-center gap-2 text-sm font-semibold tracking-widest text-muted-foreground uppercase">
+      <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-gradient-to-br from-brand to-brand-2" />
       {children}
     </span>
   );
 }
 
 export function ScrollCue({ targetId }: { targetId: string }) {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   return (
     <button
       type="button"
@@ -49,8 +60,8 @@ export function ScrollCue({ targetId }: { targetId: string }) {
       <span className="flex h-10 w-6 items-start justify-center rounded-full border-2 border-current p-1.5">
         <motion.span
           className="size-1.5 rounded-full bg-current"
-          animate={{ y: [0, 14, 0], opacity: [1, 0.3, 1] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+          animate={prefersReducedMotion ? undefined : { y: [0, 14, 0], opacity: [1, 0.3, 1] }}
+          transition={prefersReducedMotion ? undefined : { duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
         />
       </span>
     </button>

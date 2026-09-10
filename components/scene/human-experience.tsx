@@ -12,9 +12,11 @@ import { StageGroup } from "@/components/scene/stage-group";
 import { PointerParallax } from "@/components/scene/pointer-parallax";
 import { AmbientField } from "@/components/scene/ambient-field";
 import { SweepLight } from "@/components/scene/sweep-light";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 
 function SkateVignette({ position }: { position: [number, number, number] }) {
   const groupRef = useRef<THREE.Group>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const ramp = useMemo(() => {
     const curve = new THREE.EllipseCurve(0, 0, 1.1, 1.1, Math.PI, Math.PI * 1.5, false, 0);
@@ -24,7 +26,8 @@ function SkateVignette({ position }: { position: [number, number, number] }) {
   }, []);
 
   useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y += delta * 0.1;
+    if (prefersReducedMotion || !groupRef.current) return;
+    groupRef.current.rotation.y += delta * 0.1;
   });
 
   return (
@@ -50,9 +53,11 @@ function SkateVignette({ position }: { position: [number, number, number] }) {
 
 function MannequinVignette({ position }: { position: [number, number, number] }) {
   const groupRef = useRef<THREE.Group>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y += delta * 0.16;
+    if (prefersReducedMotion || !groupRef.current) return;
+    groupRef.current.rotation.y += delta * 0.16;
   });
 
   return (
@@ -77,6 +82,7 @@ function MannequinVignette({ position }: { position: [number, number, number] })
 
 function CandlestickChart({ position }: { position: [number, number, number] }) {
   const groupRef = useRef<THREE.Group>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const candles = useMemo(() => {
     const seedRandom = (seed: number) => {
@@ -91,7 +97,8 @@ function CandlestickChart({ position }: { position: [number, number, number] }) 
   }, []);
 
   useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y += delta * 0.08;
+    if (prefersReducedMotion || !groupRef.current) return;
+    groupRef.current.rotation.y += delta * 0.08;
   });
 
   return (
@@ -114,6 +121,7 @@ function ThroughlineRing({
   spokeTargets: [number, number, number][];
 }) {
   const torusRef = useRef<THREE.Mesh>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const spokes = useMemo(() => {
     const group = new THREE.Group();
@@ -126,7 +134,8 @@ function ThroughlineRing({
   }, [spokeTargets]);
 
   useFrame((_, delta) => {
-    if (torusRef.current) torusRef.current.rotation.z += delta * 0.05;
+    if (prefersReducedMotion || !torusRef.current) return;
+    torusRef.current.rotation.z += delta * 0.05;
   });
 
   return (

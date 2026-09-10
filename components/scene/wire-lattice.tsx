@@ -4,6 +4,8 @@ import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
+
 function useUniqueVertices(radius: number, detail: number) {
   return useMemo(() => {
     const geometry = new THREE.IcosahedronGeometry(radius, detail);
@@ -38,9 +40,10 @@ export function WireLattice({
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const nodes = useUniqueVertices(radius, detail);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useFrame((_, delta) => {
-    if (!groupRef.current) return;
+    if (prefersReducedMotion || !groupRef.current) return;
     groupRef.current.rotation.y += delta * 0.15;
     groupRef.current.rotation.x += delta * 0.04;
   });

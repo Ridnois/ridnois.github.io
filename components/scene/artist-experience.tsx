@@ -12,6 +12,7 @@ import { StageGroup } from "@/components/scene/stage-group";
 import { PointerParallax } from "@/components/scene/pointer-parallax";
 import { AmbientField } from "@/components/scene/ambient-field";
 import { SweepLight } from "@/components/scene/sweep-light";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 
 function useDisplacedGeometry(radius: number, detail: number, amount: number, seed: number) {
   return useMemo(() => {
@@ -33,9 +34,11 @@ function useDisplacedGeometry(radius: number, detail: number, amount: number, se
 function SculptedGem() {
   const groupRef = useRef<THREE.Group>(null);
   const geometry = useDisplacedGeometry(1.1, 2, 0.22, 4.2);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y += delta * 0.18;
+    if (prefersReducedMotion || !groupRef.current) return;
+    groupRef.current.rotation.y += delta * 0.18;
   });
 
   return (
@@ -49,6 +52,7 @@ function SculptedGem() {
 
 function ShardOrbit() {
   const groupRef = useRef<THREE.Group>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const shards = useMemo(
     () =>
       Array.from({ length: 5 }, (_, i) => {
@@ -67,7 +71,8 @@ function ShardOrbit() {
   );
 
   useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y -= delta * 0.12;
+    if (prefersReducedMotion || !groupRef.current) return;
+    groupRef.current.rotation.y -= delta * 0.12;
   });
 
   return (
@@ -124,6 +129,7 @@ function LowPolyTerrain({ position }: { position: [number, number, number] }) {
 
 function ScreenPortal({ position }: { position: [number, number, number] }) {
   const groupRef = useRef<THREE.Group>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const miniGeometry = useDisplacedGeometry(0.32, 1, 0.14, 7.7);
 
   const bezel = useMemo(() => {
@@ -140,7 +146,8 @@ function ScreenPortal({ position }: { position: [number, number, number] }) {
   }, []);
 
   useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y += delta * 0.1;
+    if (prefersReducedMotion || !groupRef.current) return;
+    groupRef.current.rotation.y += delta * 0.1;
   });
 
   return (

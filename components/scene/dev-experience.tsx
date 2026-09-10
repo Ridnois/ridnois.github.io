@@ -13,9 +13,11 @@ import { PointerParallax } from "@/components/scene/pointer-parallax";
 import { AmbientField } from "@/components/scene/ambient-field";
 import { SweepLight } from "@/components/scene/sweep-light";
 import { WireLattice } from "@/components/scene/wire-lattice";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 
 function ChainRing({ position }: { position: [number, number, number] }) {
   const groupRef = useRef<THREE.Group>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const nodeCount = 12;
   const radius = 0.9;
 
@@ -35,7 +37,8 @@ function ChainRing({ position }: { position: [number, number, number] }) {
   }, [nodePositions]);
 
   useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y += delta * 0.2;
+    if (prefersReducedMotion || !groupRef.current) return;
+    groupRef.current.rotation.y += delta * 0.2;
   });
 
   return (
@@ -53,6 +56,7 @@ function ChainRing({ position }: { position: [number, number, number] }) {
 
 function ComponentStack({ position }: { position: [number, number, number] }) {
   const groupRef = useRef<THREE.Group>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const rows = [
     { y: 0.7, boxes: [{ x: 0, scale: 1.1 }] },
@@ -93,7 +97,8 @@ function ComponentStack({ position }: { position: [number, number, number] }) {
   }, []);
 
   useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y += delta * 0.15;
+    if (prefersReducedMotion || !groupRef.current) return;
+    groupRef.current.rotation.y += delta * 0.15;
   });
 
   return (
@@ -113,10 +118,12 @@ function ComponentStack({ position }: { position: [number, number, number] }) {
 
 function ScreenFan({ position }: { position: [number, number, number] }) {
   const groupRef = useRef<THREE.Group>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const count = 6;
 
   useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y += delta * 0.12;
+    if (prefersReducedMotion || !groupRef.current) return;
+    groupRef.current.rotation.y += delta * 0.12;
   });
 
   return (

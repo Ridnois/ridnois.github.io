@@ -14,6 +14,7 @@ import { PersonaSceneCanvas } from "@/components/scene/persona-scene-canvas";
 import type { PersonaContent } from "@/lib/persona-data";
 import { PROFILE } from "@/lib/resume-data";
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 
 const LINKS = [
   { label: "GitHub", href: PROFILE.github, icon: GithubIcon },
@@ -23,6 +24,7 @@ const LINKS = [
 
 export function PersonaPage({ role, tagline, scene, color, sections, closing }: PersonaContent) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const sectionIds = useMemo(
     () => ["hero", ...sections.map((_, i) => `section-${i + 1}`)],
     [sections]
@@ -57,16 +59,9 @@ export function PersonaPage({ role, tagline, scene, color, sections, closing }: 
         className="flex min-h-screen flex-col justify-center px-6 pt-20 lg:px-10 lg:pt-24"
       >
         <motion.div
-          style={{ opacity: heroOpacity, y: heroY, scale: heroScale }}
+          style={prefersReducedMotion ? { opacity: 1 } : { opacity: heroOpacity, y: heroY, scale: heroScale }}
           className="flex w-full max-w-lg flex-col gap-6"
         >
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="outline" className="h-6 w-fit px-3 text-sm">
-              {role}
-            </Badge>
-            <OpenToWorkBadge />
-          </div>
-
           <div className="flex flex-col gap-3">
             <h1 className="font-heading text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               Ridnois
@@ -74,6 +69,13 @@ export function PersonaPage({ role, tagline, scene, color, sections, closing }: 
             <p className="font-body max-w-md text-lg font-semibold tracking-tight text-balance text-muted-foreground sm:text-xl lg:text-2xl">
               {tagline}
             </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="outline" className="h-6 w-fit px-3 text-sm">
+              {role}
+            </Badge>
+            <OpenToWorkBadge />
           </div>
 
           <div className="flex items-center gap-2">
@@ -105,6 +107,7 @@ export function PersonaPage({ role, tagline, scene, color, sections, closing }: 
           eyebrow={`0${i + 1}`}
           title={section.title}
           body={section.body}
+          href={section.href}
         />
       ))}
 

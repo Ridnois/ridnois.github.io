@@ -5,7 +5,7 @@ export interface PersonaContent {
   tagline: string;
   scene: PersonaScene;
   color: string;
-  sections: { title: string; body: string }[];
+  sections: { title: string; body: string; href?: string }[];
   closing: { title: string; body: string };
 }
 
@@ -18,7 +18,9 @@ export const DEV_CONTENT: PersonaContent = {
   sections: [
     {
       title: "WEBAI3",
-      body: "An AI inference layer settled on-chain — ERC-20 rails, a Gnosis Safe vault, and services that bill in real time. Solidity meets Next.js.",
+      body: "An AI inference layer settled on-chain — ERC-20 rails, a Gnosis Safe vault, an X402 facilitator, and services that bill in real time. Solidity meets Next.js.",
+      // TODO: point this at the specific WEBAI3 repo(s) once they're public.
+      href: "https://github.com/Ridnois",
     },
     {
       title: "Shipping for global brands",

@@ -12,6 +12,9 @@ export const TOOL_CATEGORIES = [
       "Docker",
       "Figma",
       "Postman",
+      "Vitest",
+      "ESLint",
+      "pnpm",
     ],
   },
   {
@@ -29,6 +32,10 @@ export const TOOL_CATEGORIES = [
       "Next.js",
       "Node.js",
       "Tailwind CSS",
+      "Redux",
+      "Zustand",
+      "GSAP",
+      "Framer Motion",
     ],
   },
   {
@@ -44,6 +51,9 @@ export const TOOL_CATEGORIES = [
       "Ethereum",
       "Vercel",
       "GitHub Actions",
+      "IPFS",
+      "MQTT",
+      "X402",
     ],
   },
 ];

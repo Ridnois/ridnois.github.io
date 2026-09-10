@@ -4,6 +4,7 @@ import { useRef, type ReactNode } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 
 import { Eyebrow } from "@/components/section-primitives";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 
 export function ScrollScrub({
   children,
@@ -13,6 +14,7 @@ export function ScrollScrub({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -23,7 +25,11 @@ export function ScrollScrub({
   const scale = useTransform(scrollYProgress, [0, 0.35, 0.7, 1], [0.94, 1, 1, 0.96]);
 
   return (
-    <motion.div ref={ref} style={{ y, opacity, scale }} className={className}>
+    <motion.div
+      ref={ref}
+      style={prefersReducedMotion ? { opacity: 1 } : { y, opacity, scale }}
+      className={className}
+    >
       {children}
     </motion.div>
   );
@@ -34,13 +40,16 @@ export function ScrollScrubSection({
   eyebrow,
   title,
   body,
+  href,
 }: {
   id: string;
   eyebrow: string;
   title: string;
   body: string;
+  href?: string;
 }) {
   const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
@@ -62,21 +71,31 @@ export function ScrollScrubSection({
       id={id}
       className="flex min-h-screen w-full max-w-2xl flex-col justify-center gap-4 px-6 py-24 lg:px-10"
     >
-      <motion.div style={{ y: eyebrowY, opacity: eyebrowOpacity }}>
+      <motion.div style={prefersReducedMotion ? { opacity: 1 } : { y: eyebrowY, opacity: eyebrowOpacity }}>
         <Eyebrow>{eyebrow}</Eyebrow>
       </motion.div>
       <motion.h2
-        style={{ y: titleY, opacity: titleOpacity, scale: titleScale }}
+        style={prefersReducedMotion ? { opacity: 1 } : { y: titleY, opacity: titleOpacity, scale: titleScale }}
         className="font-heading text-2xl font-semibold tracking-tight text-foreground sm:text-3xl lg:text-4xl"
       >
         {title}
       </motion.h2>
       <motion.p
-        style={{ y: bodyY, opacity: bodyOpacity }}
+        style={prefersReducedMotion ? { opacity: 1 } : { y: bodyY, opacity: bodyOpacity }}
         className="font-body max-w-2xl text-lg font-semibold tracking-tight text-balance text-foreground/80 sm:text-xl lg:text-2xl"
       >
         {body}
       </motion.p>
+      {href && (
+        <a
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          className="font-body mt-1 flex w-fit items-center gap-1.5 text-sm font-semibold tracking-tight text-muted-foreground underline underline-offset-4 hover:text-foreground"
+        >
+          View source
+        </a>
+      )}
     </section>
   );
 }

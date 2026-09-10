@@ -13,18 +13,9 @@ import { OpenToWorkBadge } from "@/components/status-badge";
 import { Eyebrow, ScrollCue } from "@/components/section-primitives";
 import { ScrollScrub } from "@/components/scroll-scrub";
 import { ToolsMarquee } from "@/components/badge-marquee";
-import { HireLoop } from "@/components/hire-loop";
 import { cn } from "@/lib/utils";
-import {
-  EDUCATION,
-  EXPERIENCE,
-  INTERESTS,
-  LANGUAGES,
-  PROFILE,
-  SKILLS,
-  STATS,
-  WHY_HIRE_ME,
-} from "@/lib/resume-data";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
+import { EXPERIENCE, PROFILE, SKILLS, STATS, WHY_HIRE_ME } from "@/lib/resume-data";
 import { ARTIST_CONTENT, DEV_CONTENT, HUMAN_CONTENT } from "@/lib/persona-data";
 import { TOOL_CATEGORIES } from "@/lib/tools-data";
 
@@ -44,6 +35,7 @@ const contactLinks = [
 
 export function Resume() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
@@ -66,15 +58,9 @@ export function Resume() {
         className="flex min-h-screen flex-col justify-center px-6 pt-20 lg:px-10 lg:pt-24"
       >
         <motion.div
-          style={{ opacity: heroOpacity, y: heroY, scale: heroScale }}
+          style={prefersReducedMotion ? { opacity: 1 } : { opacity: heroOpacity, y: heroY, scale: heroScale }}
           className="flex w-full max-w-2xl flex-col gap-6"
         >
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="outline" className="h-6 w-fit px-3 text-sm">
-              {PROFILE.role}
-            </Badge>
-            <OpenToWorkBadge />
-          </div>
           <div className="flex flex-col gap-2">
             <h1 className="font-heading text-4xl leading-[0.9] font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl 2xl:text-8xl">
               {PROFILE.brand}
@@ -83,24 +69,25 @@ export function Resume() {
               {PROFILE.name} — {PROFILE.role}
             </p>
           </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="outline" className="h-6 w-fit px-3 text-sm">
+              {PROFILE.role}
+            </Badge>
+            <OpenToWorkBadge />
+          </div>
           <p className="font-body max-w-md text-lg font-semibold tracking-tight text-balance text-muted-foreground sm:text-xl lg:text-2xl">
             {PROFILE.tagline}
           </p>
-          <div className="flex flex-wrap gap-x-8 gap-y-3">
+          <div className="flex flex-wrap gap-x-8 gap-y-3 border-y border-border/60 py-4">
             {STATS.map((stat) => (
               <div key={stat.label} className="flex flex-col">
-                <span className="text-2xl font-bold tracking-tight text-foreground">
+                <span className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                   {stat.value}
                 </span>
                 <span className="text-sm text-muted-foreground">{stat.label}</span>
               </div>
             ))}
           </div>
-          <p className="font-body max-w-md text-base font-semibold tracking-tight text-balance text-muted-foreground/80">
-            Shipped production Next.js apps for Disney, UNICEF, LATAM
-            Airlines &amp; British Airways as a frontend engineer at
-            Globant.
-          </p>
           <div className="flex flex-wrap gap-2">
             {SKILLS.map((skill) => (
               <Badge key={skill} variant="secondary" className="h-6 px-3 text-sm">
@@ -154,19 +141,30 @@ export function Resume() {
             <ScrollScrub key={job.company}>
               <div className="flex flex-col gap-3">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <h2 className="font-heading text-2xl font-semibold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
+                  <h2 className="font-heading text-xl font-semibold tracking-tight text-foreground sm:text-2xl lg:text-3xl">
                     {job.company}
                   </h2>
-                  <span className="text-sm text-muted-foreground sm:text-base">
+                  <span className="text-xs text-muted-foreground sm:text-sm">
                     {job.period}
                   </span>
                 </div>
                 <Badge variant="outline" className="h-6 w-fit px-3 text-sm">
                   {job.role}
                 </Badge>
-                <p className="font-body max-w-2xl text-lg font-semibold tracking-tight text-balance text-foreground/80 sm:text-xl lg:text-2xl">
+                <p className="font-body max-w-2xl text-base font-semibold tracking-tight text-balance text-foreground/80 sm:text-lg">
                   {job.highlight}
                 </p>
+                <ul className="mt-1 flex max-w-2xl flex-col gap-1.5">
+                  {job.bullets.map((bullet) => (
+                    <li
+                      key={bullet}
+                      className="font-body flex gap-2 text-sm text-foreground/70 sm:text-base"
+                    >
+                      <span aria-hidden className="text-muted-foreground">·</span>
+                      <span className="text-balance">{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
                 <div className="mt-1 flex flex-wrap gap-2">
                   {job.tech.map((t) => (
                     <Badge
@@ -178,6 +176,17 @@ export function Resume() {
                     </Badge>
                   ))}
                 </div>
+                {"href" in job && job.href && (
+                  <a
+                    href={job.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-body mt-1 flex w-fit items-center gap-1.5 text-sm font-semibold tracking-tight text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                  >
+                    <GithubIcon className="size-4" />
+                    View source
+                  </a>
+                )}
               </div>
             </ScrollScrub>
           ))}
@@ -186,7 +195,7 @@ export function Resume() {
 
       <section
         id="tools"
-        className="flex min-h-[45vh] w-full flex-col justify-center gap-8 px-6 py-16 lg:px-10"
+        className="flex min-h-[30vh] w-full flex-col justify-center gap-6 px-6 py-12 lg:px-10"
       >
         <div className="mx-auto w-full max-w-2xl">
           <ScrollScrub>
@@ -212,8 +221,20 @@ export function Resume() {
         </ScrollScrub>
         <ScrollScrub>
           <p className="font-body mt-4 max-w-2xl text-lg font-semibold tracking-tight text-balance text-foreground/80 sm:text-xl lg:text-2xl">
-            {WHY_HIRE_ME.body}
+            {WHY_HIRE_ME.intro}
           </p>
+        </ScrollScrub>
+        <ScrollScrub className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
+          {WHY_HIRE_ME.pillars.map((pillar) => (
+            <div key={pillar.label} className="flex flex-col gap-1.5 border-t-2 border-foreground/70 pt-3">
+              <span className="font-heading text-lg font-semibold tracking-tight text-foreground">
+                {pillar.label}
+              </span>
+              <p className="font-body text-sm text-muted-foreground sm:text-base">
+                {pillar.body}
+              </p>
+            </div>
+          ))}
         </ScrollScrub>
       </section>
 
@@ -253,8 +274,6 @@ export function Resume() {
         </div>
       </section>
 
-      <HireLoop />
-
       <section
         id="contact"
         className="flex min-h-screen w-full max-w-2xl flex-col justify-center gap-0 px-6 lg:px-10"
@@ -269,7 +288,7 @@ export function Resume() {
         </ScrollScrub>
         <ScrollScrub>
           <p className="font-body mt-4 max-w-md text-lg font-semibold tracking-tight text-balance text-muted-foreground sm:text-xl lg:text-2xl">
-            I&apos;m currently open to work — new roles, collaborations, and
+            I&apos;m currently open to work — collaborations, and
             ambitious ideas. Reach out.
           </p>
         </ScrollScrub>
@@ -305,13 +324,6 @@ export function Resume() {
         </ScrollScrub>
         <ScrollScrub>
           <div className="font-body mt-14 flex flex-col gap-2 text-lg font-semibold tracking-tight text-muted-foreground">
-            <span>
-              {EDUCATION.degree} · {EDUCATION.school} ({EDUCATION.period})
-            </span>
-            <span>
-              {LANGUAGES.map((l) => `${l.name} (${l.level})`).join(" · ")}
-            </span>
-            <span>{INTERESTS.join(" · ")}</span>
             <Link href="/resume" className="underline underline-offset-4 hover:text-foreground">
               Plain-text resume
             </Link>

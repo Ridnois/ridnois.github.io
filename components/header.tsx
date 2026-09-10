@@ -34,7 +34,7 @@ export function Header() {
                 key={href}
                 href={href}
                 className={cn(
-                  "relative py-1 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:scale-x-0 after:bg-foreground after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100",
+                  "relative py-1 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:scale-x-0 after:bg-gradient-to-r after:from-brand after:to-brand-2 after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100",
                   active
                     ? "text-foreground after:scale-x-100"
                     : "text-muted-foreground hover:text-foreground"
