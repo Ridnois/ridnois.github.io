@@ -6,6 +6,7 @@ import { Download } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { HeaderFlourish } from "@/components/header-flourish";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -22,9 +23,10 @@ export function Header() {
       <div className="relative mx-auto flex h-20 w-full max-w-7xl items-center px-6 lg:px-10">
         <Link
           href="/"
-          className="font-heading text-2xl font-semibold tracking-tight sm:text-3xl"
+          className="font-heading relative text-2xl font-semibold tracking-tight sm:text-3xl"
         >
           Ridnois
+          <HeaderFlourish />
         </Link>
         <nav className="font-body absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-8 text-lg font-semibold tracking-tight">
           {NAV.map(({ label, href }) => {
