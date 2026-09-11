@@ -5,6 +5,7 @@ import { PROFILE } from "@/lib/resume-data";
 
 export const size = OG_IMAGE_SIZE;
 export const contentType = OG_IMAGE_CONTENT_TYPE;
+export const dynamic = "force-static";
 
 export default async function Image() {
   return new ImageResponse(
