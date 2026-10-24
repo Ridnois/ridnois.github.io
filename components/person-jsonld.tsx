@@ -26,7 +26,7 @@ export function PersonJsonLd() {
       "@type": "Organization",
       name: currentJob.company,
     },
-    description: PROFILE.tagline,
+    description: PROFILE.headline,
   };
 
   return (

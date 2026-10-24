@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Fraunces, Geist, Geist_Mono, Poppins } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { PersonJsonLd } from "@/components/person-jsonld";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -20,17 +21,11 @@ const geistMono = Geist_Mono({
 const fraunces = Fraunces({
   variable: "--font-serif",
   subsets: ["latin"],
-  weight: ["500", "600"],
-});
-
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["600"],
+  weight: ["400", "500", "600"],
 });
 
 const title = `${PROFILE.name} — ${PROFILE.role}`;
-const description = `${PROFILE.role} specializing in TypeScript, React/Next.js, and Web3 — resume and portfolio. Open to work.`;
+const description = `${PROFILE.role} in Santiago, Chile: front-end architecture, API building and system design. Next.js for Disney, UNICEF, LATAM and British Airways; on-chain payment infrastructure. Open to work.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(PROFILE.siteUrl),
@@ -56,13 +51,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${poppins.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <PersonJsonLd />
           <Header />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

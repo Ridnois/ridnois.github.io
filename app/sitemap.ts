@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { PROFILE } from "@/lib/resume-data";
 
-const ROUTES = ["", "/dev", "/3d-artist", "/human", "/resume"];
+const ROUTES = ["", "/resume"];
 
 export const dynamic = "force-static";
 

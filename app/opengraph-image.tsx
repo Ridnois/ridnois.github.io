@@ -48,7 +48,7 @@ export default async function Image() {
           {PROFILE.name} — {PROFILE.role}
         </div>
         <div style={{ display: "flex", fontSize: 28, color: "#71717a", marginTop: 16, maxWidth: 900 }}>
-          TypeScript · React · Next.js · Web3
+          Front-end · APIs · System design
         </div>
       </div>
     ),

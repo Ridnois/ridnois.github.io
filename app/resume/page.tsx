@@ -4,15 +4,15 @@ import Link from "next/link";
 import {
   EDUCATION,
   EXPERIENCE,
-  INTERESTS,
   LANGUAGES,
   PROFILE,
-  SKILLS,
+  PROJECTS,
+  SKILL_AREAS,
 } from "@/lib/resume-data";
 
 export const metadata: Metadata = {
   title: `Resume — ${PROFILE.name}`,
-  description: PROFILE.summary,
+  description: PROFILE.pitch,
   alternates: { canonical: "/resume" },
 };
 
@@ -29,7 +29,7 @@ export default function ResumePage() {
         <p className="text-lg text-muted-foreground">
           {PROFILE.role} · {PROFILE.location}
         </p>
-        <p className="max-w-2xl text-foreground/80">{PROFILE.summary}</p>
+        <p className="max-w-2xl text-foreground/80">{PROFILE.headline} {PROFILE.pitch}</p>
         <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
           <li>
             <a href={`mailto:${PROFILE.email}`} className="underline underline-offset-4">
@@ -61,7 +61,13 @@ export default function ResumePage() {
 
       <section className="flex flex-col gap-3">
         <h2 className="text-xl font-bold tracking-tight text-foreground">Skills</h2>
-        <p className="text-foreground/80">{SKILLS.join(", ")}</p>
+        <ul className="list-disc pl-5 text-foreground/80">
+          {SKILL_AREAS.map((a) => (
+            <li key={a.area}>
+              <strong>{a.area}:</strong> {a.skills.join("; ")} ({a.tools.join(", ")})
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className="flex flex-col gap-8">
@@ -84,6 +90,22 @@ export default function ResumePage() {
         ))}
       </section>
 
+      <section className="flex flex-col gap-6">
+        <h2 className="text-xl font-bold tracking-tight text-foreground">Projects</h2>
+        {PROJECTS.map((p) => (
+          <article key={p.name} className="flex flex-col gap-2">
+            <h3 className="text-lg font-bold text-foreground">
+              <a href={p.href} className="underline underline-offset-4">{p.name}</a>
+            </h3>
+            <p className="text-foreground/80">{p.summary}</p>
+            <ul className="list-disc pl-5 text-foreground/80">
+              {p.highlights.map((h) => (<li key={h}>{h}</li>))}
+            </ul>
+            <p className="text-sm text-muted-foreground">{p.tech.join(", ")}</p>
+          </article>
+        ))}
+      </section>
+
       <section className="flex flex-col gap-2">
         <h2 className="text-xl font-bold tracking-tight text-foreground">Education</h2>
         <p className="text-foreground/80">
@@ -100,10 +122,6 @@ export default function ResumePage() {
         </p>
       </section>
 
-      <section className="flex flex-col gap-2">
-        <h2 className="text-xl font-bold tracking-tight text-foreground">Interests</h2>
-        <p className="text-foreground/80">{INTERESTS.join(", ")}</p>
-      </section>
     </main>
   );
 }
