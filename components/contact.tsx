@@ -25,8 +25,8 @@ export function Contact() {
       </Reveal>
 
       <div className="mt-12 grid gap-6 lg:grid-cols-2">
-        <Reveal className="h-full">
-          <div className="flex h-full flex-col gap-6 rounded-2xl border border-border bg-background p-7">
+        <Reveal className="h-full min-w-0">
+          <div className="flex h-full flex-col gap-6 rounded-2xl border border-border bg-background p-5 sm:p-7">
             <div className="flex flex-col gap-1">
               <h3 className="font-heading text-2xl font-medium">For humans</h3>
               <p className="text-base text-muted-foreground">
@@ -35,10 +35,13 @@ export function Contact() {
             </div>
             <a
               href={CONTACT_MAILTO}
-              className={cn(buttonVariants({ size: "lg" }), "h-14 w-full gap-2 text-lg")}
+              className={cn(
+                buttonVariants({ size: "lg" }),
+                "h-auto min-h-14 w-full gap-2 px-4 py-3 text-base break-all whitespace-normal sm:text-lg"
+              )}
             >
-              <Mail className="size-5" />
-              Email {PROFILE.email}
+              <Mail className="size-5 shrink-0" />
+              <span>Email {PROFILE.email}</span>
             </a>
             <div className="flex flex-wrap gap-2">
               <CopyButton text={PROFILE.email} label="Copy email" />
@@ -72,8 +75,8 @@ export function Contact() {
           </div>
         </Reveal>
 
-        <Reveal className="h-full">
-          <div className="flex h-full flex-col gap-5 rounded-2xl border border-border bg-foreground p-7 text-background">
+        <Reveal className="h-full min-w-0">
+          <div className="flex h-full flex-col gap-5 rounded-2xl border border-border bg-foreground p-5 text-background sm:p-7">
             <div className="flex flex-col gap-1">
               <h3 className="font-heading text-2xl font-medium">For machines &amp; agents</h3>
               <p className="text-base opacity-70">
@@ -85,7 +88,7 @@ export function Contact() {
                 <li key={e.path} className="border-b border-background/15 last:border-0">
                   <a
                     href={e.path}
-                    className="flex items-baseline justify-between gap-4 py-2 hover:text-brand-2"
+                    className="flex flex-col gap-0.5 py-2 hover:text-brand-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4"
                   >
                     <span>{e.path}</span>
                     <span className="text-xs opacity-60">{e.note}</span>
